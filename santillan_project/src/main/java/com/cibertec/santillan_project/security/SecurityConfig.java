@@ -57,7 +57,7 @@ public class SecurityConfig {
         } else {
             configuration.setAllowedOrigins(List.of(
                     "http://localhost:3000",
-                    "https://frontend-rho-six-28.vercel.app"
+                    "https://frontend-53lwo4hca-heber-rios-projects.vercel.app"
             ));
         }
 //Arrays.asList("http://localhost:3000"));
