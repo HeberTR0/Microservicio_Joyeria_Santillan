@@ -177,6 +177,10 @@ public class VentaService {
         BigDecimal totalVentas = ventaRepo.sumTotalByFechaBetween(inicioDia, finDia);
         BigDecimal totalCostos = ordenCompraRepo.sumTotalByFechaBetween(inicioDia, finDia);
 
+        // Si totalVentas o totalCostos es null, usar 0---------------------new---
+        if (totalVentas == null) totalVentas = BigDecimal.ZERO;
+        if (totalCostos == null) totalCostos = BigDecimal.ZERO;
+
         BigDecimal ganancias = totalVentas.subtract(totalCostos);
 
         return new GananciasDiaDTO(ganancias);
@@ -190,6 +194,11 @@ public class VentaService {
         LocalDateTime finMes = hoy.withDayOfMonth(hoy.lengthOfMonth()).atTime(LocalTime.MAX);
 
         BigDecimal totalVentasMes = ventaRepo.sumTotalByFechaBetween(inicioMes, finMes);
+        // Total de ventas del mes----------------------------------
+        if (totalVentasMes == null) totalVentasMes = BigDecimal.ZERO;
+        // Total de costos del mes (órdenes de compra)-----------------------------------
+        BigDecimal totalCostosMes = ordenCompraRepo.sumTotalByFechaBetween(inicioMes, finMes);
+        if (totalCostosMes == null) totalCostosMes = BigDecimal.ZERO;
 
         List<Venta> ventasDelMes = ventaRepo.findByFechaVentaBetween(inicioMes, finMes);
 
@@ -232,7 +241,7 @@ public class VentaService {
                     );
                 })
                 .sorted((a, b) -> b.getGananciaTotal().compareTo(a.getGananciaTotal()))
-                .limit(10)
+                .limit(3)
                 .collect(Collectors.toList());
 
 
@@ -245,11 +254,14 @@ public class VentaService {
                         stats.totalVentas
                 ))
                 .sorted((a, b) -> b.getCantidadVendida().compareTo(a.getCantidadVendida()))
-                .limit(10)
+                .limit(3)
                 .collect(Collectors.toList());
+
+
 
         ResumenVentasDTO resumen = new ResumenVentasDTO();
         resumen.setTotalVentasMes(totalVentasMes);
+        resumen.setTotalCostosMes(totalCostosMes);
         resumen.setGananciaBruta(gananciaNetaTotal); // ahora es solo precio × cantidad
         resumen.setProductosRentables(productosRentables);
         resumen.setProductosVendidos(productosVendidos);
