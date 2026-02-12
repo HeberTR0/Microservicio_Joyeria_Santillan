@@ -44,7 +44,7 @@ public class VentaController {
     }
 
     @GetMapping("/resumen-mensual")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResumenVentasDTO> obtenerResumenMensual() {
         return ResponseEntity.ok(ventaService.obtenerResumenMensual());
     }
