@@ -57,9 +57,10 @@ public class SecurityConfig {
         } else {
             configuration.setAllowedOrigins(List.of(
                     "http://localhost:3000",
-                    "https://frontend-mhos4dyr4-heber-rios-projects.vercel.app"
+                    "https://joyeria-santillan.vercel.app"
             ));
         }
+        //https://frontend-mhos4dyr4-heber-rios-projects.vercel.app
 //Arrays.asList("http://localhost:3000"));
         configuration.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS"
